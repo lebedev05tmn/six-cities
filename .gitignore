@@ -11,3 +11,7 @@ Thumbs.db
 *.log*
 node_modules/
 markup/
+
+# Публичный генерируемый скрипт
+public/bundle.js
+public/bundle.js.map
