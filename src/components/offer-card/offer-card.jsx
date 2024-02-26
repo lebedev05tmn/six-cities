@@ -61,7 +61,7 @@ const OfferCard = (props) => {
 
 OfferCard.propTypes = {
   cardData: PropTypes.shape({
-    id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    id: PropTypes.string,
     price: PropTypes.number,
     stars: PropTypes.number,
     title: PropTypes.string,

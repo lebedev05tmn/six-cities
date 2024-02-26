@@ -1,14 +1,17 @@
 import React from "react";
+import {BrowserRouter, Routes, Route} from "react-router-dom";
 import HomePage from "../home/home";
-import PropTypes from "prop-types";
+import NotFound from "../not-found/not-found";
 
-const App = (props) => {
-  const {lengthOfList} = props;
-  return <HomePage lengthOfList={lengthOfList} />;
-};
-
-App.propTypes = {
-  lengthOfList: PropTypes.number.isRequired,
+const App = () => {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </BrowserRouter>
+  );
 };
 
 export default App;

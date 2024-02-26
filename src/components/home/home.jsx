@@ -1,11 +1,8 @@
 import React from "react";
 import OfferCard from "../offer-card/offer-card";
-import PropTypes from "prop-types";
 import {OfferData} from "../../mock-data";
 
-const HomePage = (props) => {
-  const {lengthOfList} = props;
-
+const HomePage = () => {
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -111,7 +108,7 @@ const HomePage = (props) => {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                {OfferData.length === lengthOfList &&
+                {OfferData.length &&
                   OfferData.map((elem) => (
                     <OfferCard cardData={elem} key={elem.id} />
                   ))}
@@ -125,10 +122,6 @@ const HomePage = (props) => {
       </main>
     </div>
   );
-};
-
-HomePage.propTypes = {
-  lengthOfList: PropTypes.number.isRequired,
 };
 
 export default HomePage;
