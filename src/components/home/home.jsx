@@ -1,6 +1,7 @@
 import React from "react";
-import Card from "../card/card";
+import OfferCard from "../offer-card/offer-card";
 import PropTypes from "prop-types";
+import {OfferData} from "../../mock-data";
 
 const HomePage = (props) => {
   const {lengthOfList} = props;
@@ -110,9 +111,10 @@ const HomePage = (props) => {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                {new Array(lengthOfList).fill(``).map((elem, index) => (
-                  <Card key={index} />
-                ))}
+                {OfferData.length === lengthOfList &&
+                  OfferData.map((elem) => (
+                    <OfferCard cardData={elem} key={elem.id} />
+                  ))}
               </div>
             </section>
             <div className="cities__right-section">
