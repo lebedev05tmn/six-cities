@@ -1,14 +1,21 @@
 import React from "react";
 import {BrowserRouter, Routes, Route} from "react-router-dom";
-import HomePage from "../home/home";
-import NotFound from "../not-found/not-found";
+import MainPage from "../main-page/main-page";
+import SignInPage from "../sign-in-page/sign-in-page";
+import FavoritesPage from "../favorites-page/favorties-page";
+import RoomPage from "../room-page/room-page";
+import NotFoundPage from "../not-found-page/not-found-page";
+import {AppRoute} from "../../const";
 
 const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="*" element={<NotFound />} />
+        <Route path={AppRoute.ROOT} element={<MainPage />} />
+        <Route path={AppRoute.LOGIN} element={<SignInPage />} />
+        <Route path={AppRoute.FAVORITES} element={<FavoritesPage />} />
+        <Route path={AppRoute.PROPERTIES} element={<RoomPage />} />
+        <Route path={AppRoute.NOT_FOUND} element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
   );

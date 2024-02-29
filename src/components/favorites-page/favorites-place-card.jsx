@@ -1,47 +1,38 @@
 import React from "react";
 import PropTypes from "prop-types";
+import {parseImage} from "../../utils";
 
-const OfferCard = (props) => {
-  const {cardData} = props;
-  const {price, stars, title, type, image, isFavorite, isPremium} = cardData;
+const FavoritesPlaceCard = (props) => {
+  const {locationData} = props;
+  const {price, stars, title, type, image} = locationData;
+
   return (
-    <article className="cities__place-card place-card">
-      {isPremium ? (
-        <div className="place-card__mark">
-          <span>Premium</span>
-        </div>
-      ) : (
-        ``
-      )}
-      <div className="cities__image-wrapper place-card__image-wrapper">
+    <article className="favorites__card place-card">
+      <div className="favorites__image-wrapper place-card__image-wrapper">
         <a href="#">
           <img
             className="place-card__image"
-            src={`img/${image}.jpg`}
-            width="260"
-            height="200"
+            src={`img/${parseImage(image)}.jpg`}
+            width="150"
+            height="110"
             alt="Place image"
           />
         </a>
       </div>
-      <div className="place-card__info">
+      <div className="favorites__card-info place-card__info">
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
           <button
-            className={`place-card__bookmark-button ${
-              isFavorite
-                ? `place-card__bookmark-button--active button`
-                : `button`
-            }`}
+            className="place-card__bookmark-button place-card__bookmark-button--active button"
             type="button"
           >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
             </svg>
-            <span className="visually-hidden">To bookmarks</span>
+            <span className="visually-hidden">In bookmarks</span>
           </button>
         </div>
         <div className="place-card__rating rating">
@@ -59,17 +50,14 @@ const OfferCard = (props) => {
   );
 };
 
-OfferCard.propTypes = {
-  cardData: PropTypes.shape({
-    id: PropTypes.string.isRequired,
+FavoritesPlaceCard.propTypes = {
+  locationData: PropTypes.shape({
     price: PropTypes.number.isRequired,
-    stars: PropTypes.number.isRequired,
+    stars: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
     image: PropTypes.string.isRequired,
-    isFavorite: PropTypes.bool.isRequired,
-    isPremium: PropTypes.bool.isRequired,
   }),
 };
 
-export default OfferCard;
+export default FavoritesPlaceCard;

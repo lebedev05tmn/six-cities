@@ -1,8 +1,12 @@
-import React from "react";
+import React, {useEffect} from "react";
 import OfferCard from "../offer-card/offer-card";
-import {OfferData} from "../../mock-data";
+import {OfferData} from "../../mocks/mock-data";
 
-const HomePage = () => {
+const MainPage = () => {
+  useEffect(() => {
+    document.title = `6 cities`;
+  });
+
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -108,8 +112,8 @@ const HomePage = () => {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                {OfferData.length &&
-                  OfferData.map((elem) => (
+                {OfferData.Amsterdam.length &&
+                  OfferData.Amsterdam.map((elem) => (
                     <OfferCard cardData={elem} key={elem.id} />
                   ))}
               </div>
@@ -124,4 +128,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default MainPage;
