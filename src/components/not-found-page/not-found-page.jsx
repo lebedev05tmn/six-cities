@@ -1,5 +1,6 @@
 import React, {useEffect} from "react";
 import {Link} from "react-router-dom";
+import {AppRoute} from "../../const";
 
 const NotFoundPage = () => {
   useEffect(() => {
@@ -22,7 +23,11 @@ const NotFoundPage = () => {
         404
       </h1>
       <p className="not-found__text">Page not found</p>
-      <Link className="not-found__link" to="/" style={{color: `blue`}}>
+      <Link
+        className="not-found__link"
+        to={AppRoute.ROOT}
+        style={{color: `blue`}}
+      >
         Home Page
       </Link>
     </div>

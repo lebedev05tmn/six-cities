@@ -3,7 +3,8 @@ import PropTypes from "prop-types";
 import FavoritesPlaceCard from "./favorites-place-card";
 
 const FavoritesLocation = (props) => {
-  const {locationData, locationName} = props;
+  const {locationData} = props;
+  console.log(locationData);
   let index = 1;
 
   return (
@@ -11,27 +12,22 @@ const FavoritesLocation = (props) => {
       <div className="favorites__locations locations locations--current">
         <div className="locations__item">
           <a className="locations__item-link" href="#">
-            <span>{locationName}</span>
+            <span>Amsterdam</span>
           </a>
         </div>
       </div>
       <div className="favorites__places">
-        {locationData.map((place) =>
-          place.isFavorite ? (
+        {locationData
+          .filter((elem) => elem.isFavorite)
+          .map((place) => (
             <FavoritesPlaceCard
               locationData={place}
-              key={`${locationName}-${index++}`}
+              key={`amsterdam-${index++}`}
             />
-          ) : null
-        )}
+          ))}
       </div>
     </li>
   );
-};
-
-FavoritesLocation.propTypes = {
-  locationData: PropTypes.arrayOf(PropTypes.object),
-  locationName: PropTypes.string,
 };
 
 export default FavoritesLocation;

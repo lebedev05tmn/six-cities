@@ -1,9 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
+import {Link} from "react-router-dom";
+import {AppRoute} from "../../const";
 
 const OfferCard = (props) => {
   const {cardData} = props;
-  const {price, stars, title, type, image, isFavorite, isPremium} = cardData;
+  const {id, price, stars, title, type, image, isFavorite, isPremium} =
+    cardData;
   return (
     <article className="cities__place-card place-card">
       {isPremium ? (
@@ -14,7 +17,7 @@ const OfferCard = (props) => {
         ``
       )}
       <div className="cities__image-wrapper place-card__image-wrapper">
-        <a href="#">
+        <Link to={AppRoute.PROPERTIES + id}>
           <img
             className="place-card__image"
             src={`img/${image}.jpg`}
@@ -22,7 +25,7 @@ const OfferCard = (props) => {
             height="200"
             alt="Place image"
           />
-        </a>
+        </Link>
       </div>
       <div className="place-card__info">
         <div className="place-card__price-wrapper">
@@ -51,7 +54,7 @@ const OfferCard = (props) => {
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="#">{title}</a>
+          <Link to={AppRoute.PROPERTIES + id}>{title}</Link>
         </h2>
         <p className="place-card__type">{type}</p>
       </div>

@@ -1,12 +1,14 @@
 import React, {useEffect} from "react";
 import {Link} from "react-router-dom";
-import {OfferData} from "../../mocks/mock-data";
+import {AppRoute} from "../../const";
 import FavoritesLocation from "./favorites-location";
 
-const FavoritesPage = () => {
+const FavoritesPage = (props) => {
   useEffect(() => {
     document.title = `6 cities: favorites`;
   });
+  const {offerData} = props;
+  let index = 1;
 
   return (
     <div className="page">
@@ -14,7 +16,7 @@ const FavoritesPage = () => {
         <div className="container">
           <div className="header__wrapper">
             <div className="header__left">
-              <Link className="header__logo-link" to="/">
+              <Link className="header__logo-link" to={AppRoute.ROOT}>
                 <img
                   className="header__logo"
                   src="img/logo.svg"
@@ -48,13 +50,10 @@ const FavoritesPage = () => {
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
             <ul className="favorites__list">
-              {Object.entries(OfferData).map((elem) => (
-                <FavoritesLocation
-                  locationData={elem[1]}
-                  locationName={elem[0]}
-                  key={elem[0]}
-                />
-              ))}
+              <FavoritesLocation
+                locationData={offerData}
+                key={"amsterdam" + "-" + index++}
+              />
             </ul>
           </section>
         </div>

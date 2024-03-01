@@ -53,7 +53,7 @@ const FavoritesPlaceCard = (props) => {
 FavoritesPlaceCard.propTypes = {
   locationData: PropTypes.shape({
     price: PropTypes.number.isRequired,
-    stars: PropTypes.string.isRequired,
+    stars: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
     image: PropTypes.string.isRequired,

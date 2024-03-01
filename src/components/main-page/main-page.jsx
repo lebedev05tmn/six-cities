@@ -1,11 +1,12 @@
-import React, {useEffect} from "react";
+import React, {useState, useEffect} from "react";
 import OfferCard from "../offer-card/offer-card";
-import {OfferData} from "../../mocks/mock-data";
 
-const MainPage = () => {
+const MainPage = (props) => {
   useEffect(() => {
     document.title = `6 cities`;
   });
+  const [hoverCard, setHoverCard] = useState(null);
+  const {offerData} = props;
 
   return (
     <div className="page page--gray page--main">
@@ -93,7 +94,7 @@ const MainPage = () => {
                     <use xlinkHref="#icon-arrow-select"></use>
                   </svg>
                 </span>
-                <ul className="places__options places__options--custom places__options--opened">
+                <ul className="places__options places__options--custom">
                   <li
                     className="places__option places__option--active"
                     tabIndex="0"
@@ -112,9 +113,14 @@ const MainPage = () => {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                {OfferData.Amsterdam.length &&
-                  OfferData.Amsterdam.map((elem) => (
-                    <OfferCard cardData={elem} key={elem.id} />
+                {offerData.length &&
+                  offerData.map((elem) => (
+                    <OfferCard
+                      cardData={elem}
+                      key={elem.id}
+                      onMouseEnter={() => setHoverCard(elem.id)}
+                      onMouseLeave={() => setHoverCard(null)}
+                    />
                   ))}
               </div>
             </section>
