@@ -2,6 +2,7 @@ import React, {useEffect} from "react";
 import {Link} from "react-router-dom";
 import {AppRoute} from "../../const";
 import FavoritesLocation from "./favorites-location";
+import PropTypes from "prop-types";
 
 const FavoritesPage = (props) => {
   useEffect(() => {
@@ -52,7 +53,7 @@ const FavoritesPage = (props) => {
             <ul className="favorites__list">
               <FavoritesLocation
                 locationData={offerData}
-                key={"amsterdam" + "-" + index++}
+                key={`amsterdam-${index++}`}
               />
             </ul>
           </section>
@@ -71,6 +72,10 @@ const FavoritesPage = (props) => {
       </footer>
     </div>
   );
+};
+
+FavoritesPage.propTypes = {
+  offerData: PropTypes.array,
 };
 
 export default FavoritesPage;

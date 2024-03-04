@@ -9,12 +9,10 @@ const OfferCard = (props) => {
     cardData;
   return (
     <article className="cities__place-card place-card">
-      {isPremium ? (
+      {isPremium && (
         <div className="place-card__mark">
           <span>Premium</span>
         </div>
-      ) : (
-        ``
       )}
       <div className="cities__image-wrapper place-card__image-wrapper">
         <Link to={AppRoute.PROPERTIES + id}>
@@ -35,10 +33,8 @@ const OfferCard = (props) => {
           </div>
           <button
             className={`place-card__bookmark-button ${
-              isFavorite
-                ? `place-card__bookmark-button--active button`
-                : `button`
-            }`}
+              isFavorite && `place-card__bookmark-button--active`
+            } button`}
             type="button"
           >
             <svg className="place-card__bookmark-icon" width="18" height="19">

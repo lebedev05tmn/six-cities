@@ -4,7 +4,6 @@ import FavoritesPlaceCard from "./favorites-place-card";
 
 const FavoritesLocation = (props) => {
   const {locationData} = props;
-  console.log(locationData);
   let index = 1;
 
   return (
@@ -28,6 +27,10 @@ const FavoritesLocation = (props) => {
       </div>
     </li>
   );
+};
+
+FavoritesLocation.propTypes = {
+  locationData: PropTypes.array,
 };
 
 export default FavoritesLocation;

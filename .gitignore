@@ -11,6 +11,7 @@ Thumbs.db
 *.log*
 node_modules/
 markup/
+requirements.md
 
 # Публичный генерируемый скрипт
 public/bundle.js

@@ -1,5 +1,5 @@
 import React from "react";
-const NewComment = () => {
+const CommentField = () => {
   return (
     <form className="reviews__form form" action="#" method="post">
       <label className="reviews__label form__label" htmlFor="review">
@@ -102,7 +102,7 @@ const NewComment = () => {
           To submit review please make sure to set
           <span className="reviews__star">rating</span> and describe your stay
           with at least
-          <b className="reviews__text-amount">50 characters</b>.
+          <b className="reviews__text-amount"> 50 characters</b>.
         </p>
         <button
           className="reviews__submit form__submit button"
@@ -115,4 +115,5 @@ const NewComment = () => {
     </form>
   );
 };
-export default NewComment;
+
+export default CommentField;

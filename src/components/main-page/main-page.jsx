@@ -1,12 +1,15 @@
 import React, {useState, useEffect} from "react";
 import OfferCard from "../offer-card/offer-card";
+import Map from "../offer-map/offer-map";
+import PropTypes from "prop-types";
 
 const MainPage = (props) => {
+  const [hoverCard, setHoverCard] = useState(null);
+  const {offerData} = props;
+
   useEffect(() => {
     document.title = `6 cities`;
   });
-  const [hoverCard, setHoverCard] = useState(null);
-  const {offerData} = props;
 
   return (
     <div className="page page--gray page--main">
@@ -125,13 +128,22 @@ const MainPage = (props) => {
               </div>
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
+              <section
+                className="cities__map map"
+                style={{background: `none`, height: `794px`}}
+              >
+                <Map offerData={offerData} />
+              </section>
             </div>
           </div>
         </div>
       </main>
     </div>
   );
+};
+
+MainPage.propTypes = {
+  offerData: PropTypes.array,
 };
 
 export default MainPage;
