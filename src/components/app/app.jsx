@@ -16,7 +16,11 @@ const App = (props) => {
       <Routes>
         <Route
           path={AppRoute.ROOT}
-          element={<MainPage offerData={offerData} />}
+          element={
+            <Page isMain={true}>
+              <MainPage />
+            </Page>
+          }
         />
         <Route path={AppRoute.LOGIN} element={<SignInPage />} />
         <Route

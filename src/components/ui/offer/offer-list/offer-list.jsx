@@ -7,13 +7,14 @@ const OfferList = (props) => {
     <section className="near-places places">
       <h2 className="near-places__title">Other places in the neighbourhood</h2>
       <div className="near-places__list places__list">
-        {offerData.map((elem) => (
-          <OfferCard
-            className={`near-place__card`}
-            cardData={elem}
-            key={elem.id}
-          />
-        ))}
+        {offerData &&
+          offerData.map((elem) => (
+            <OfferCard
+              className={`near-place__card`}
+              cardData={elem}
+              key={elem.id}
+            />
+          ))}
       </div>
     </section>
   );

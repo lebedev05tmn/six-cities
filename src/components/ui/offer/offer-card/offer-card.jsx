@@ -1,15 +1,30 @@
-import React from "react";
+import React, {useEffect} from "react";
 import PropTypes from "prop-types";
 import {Link} from "react-router-dom";
 import {AppRoute} from "../../../../const";
+import {connect} from "react-redux";
+import {ActionCreator} from "../../../../store/action";
 
 const OfferCard = (props) => {
-  const {cardData} = props;
-  const {id, price, stars, title, type, image, isFavorite, isPremium} =
-    cardData;
+  const {cardData, hoverCardId, onUserHover} = props;
+  const {
+    id,
+    price,
+    rating,
+    title,
+    type,
+    preview_image,
+    is_favorite,
+    is_premium,
+  } = cardData;
+
   return (
-    <article className="cities__place-card place-card">
-      {isPremium && (
+    <article
+      className="cities__place-card place-card"
+      onMouseEnter={() => onUserHover(id)}
+      onMouseLeave={() => onUserHover(null)}
+    >
+      {is_premium && (
         <div className="place-card__mark">
           <span>Premium</span>
         </div>
@@ -18,7 +33,7 @@ const OfferCard = (props) => {
         <Link to={AppRoute.PROPERTIES + id}>
           <img
             className="place-card__image"
-            src={`img/${image}.jpg`}
+            src={preview_image}
             width="260"
             height="200"
             alt="Place image"
@@ -33,7 +48,7 @@ const OfferCard = (props) => {
           </div>
           <button
             className={`place-card__bookmark-button ${
-              isFavorite && `place-card__bookmark-button--active`
+              is_favorite && `place-card__bookmark-button--active`
             } button`}
             type="button"
           >
@@ -45,7 +60,7 @@ const OfferCard = (props) => {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: `${stars * 20}%`}}></span>
+            <span style={{width: `${Math.floor(rating) * 20}%`}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
@@ -60,15 +75,26 @@ const OfferCard = (props) => {
 
 OfferCard.propTypes = {
   cardData: PropTypes.shape({
-    id: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
     price: PropTypes.number.isRequired,
-    stars: PropTypes.number.isRequired,
+    rating: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
-    image: PropTypes.string.isRequired,
-    isFavorite: PropTypes.bool.isRequired,
-    isPremium: PropTypes.bool.isRequired,
+    preview_image: PropTypes.string.isRequired,
+    is_favorite: PropTypes.bool.isRequired,
+    is_premium: PropTypes.bool.isRequired,
   }),
 };
 
-export default OfferCard;
+const mapStateToProps = (state) => ({
+  hoverCardId: state.hoverCardId,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onUserHover(id) {
+    dispatch(ActionCreator.hoverCard(id));
+  },
+});
+
+export {OfferCard};
+export default connect(mapStateToProps, mapDispatchToProps)(OfferCard);

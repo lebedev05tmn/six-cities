@@ -1,9 +1,6 @@
 import React, {useEffect} from "react";
-import {Link} from "react-router-dom";
-import {AppRoute} from "../../../const";
 import FavoritesLocation from "../../ui/favorites/favorites-location/favorites-location";
 import PropTypes from "prop-types";
-import Footer from "../../layout/footer/footer";
 
 const FavoritesPage = (props) => {
   useEffect(() => {

@@ -1,20 +1,19 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {parseImage} from "../../../../utils/utils";
 import {Link} from "react-router-dom";
 import {AppRoute} from "../../../../const";
 
 const FavoritesPlaceCard = (props) => {
   const {locationData} = props;
-  const {id, price, stars, title, type, image} = locationData;
+  const {id, price, rating, title, type, preview_image} = locationData;
 
   return (
     <article className="favorites__card place-card">
       <div className="favorites__image-wrapper place-card__image-wrapper">
-        <Link to={AppRoute.LOGIN}>
+        <Link to={AppRoute.PROPERTIES + id}>
           <img
             className="place-card__image"
-            src={`img/${parseImage(image)}.jpg`}
+            src={preview_image}
             width="150"
             height="110"
             alt="Place image"
@@ -39,7 +38,7 @@ const FavoritesPlaceCard = (props) => {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: `${stars * 20}%`}}></span>
+            <span style={{width: `${Math.floor(rating) * 20}%`}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
