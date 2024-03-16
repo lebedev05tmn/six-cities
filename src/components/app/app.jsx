@@ -1,16 +1,27 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React, {useEffect} from "react";
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import MainPage from "../pages/main-page/main-page";
 import SignInPage from "../pages/sign-in-page/sign-in-page";
 import FavoritesPage from "../pages/favorites-page/favorties-page";
 import RoomPage from "../pages/room-page/room-page";
 import NotFoundPage from "../pages/not-found-page/not-found-page";
-import Page from "../pages/page/page";
+import Page from "../layout/page/page";
+import LoadingScreen from "../ui/loading-screen/loading-screen";
 import {AppRoute} from "../../const";
+import {fetchOffersList} from "../../store/api-actions";
+import {connect} from "react-redux";
 
 const App = (props) => {
-  const {offerData} = props;
+  const {onLoadData, isDataLoaded} = props;
+  useEffect(() => {
+    if (!isDataLoaded) {
+      onLoadData();
+    }
+  }, [isDataLoaded]);
+  if (!isDataLoaded) {
+    return <LoadingScreen />;
+  }
+
   return (
     <BrowserRouter>
       <Routes>
@@ -27,7 +38,7 @@ const App = (props) => {
           path={AppRoute.FAVORITES}
           element={
             <Page>
-              <FavoritesPage offerData={offerData} />
+              <FavoritesPage />
             </Page>
           }
         />
@@ -35,7 +46,7 @@ const App = (props) => {
           path={AppRoute.PROPERTIES + `:id`}
           element={
             <Page>
-              <RoomPage offerData={offerData} />
+              <RoomPage />
             </Page>
           }
         />
@@ -45,8 +56,15 @@ const App = (props) => {
   );
 };
 
-App.propTypes = {
-  offerData: PropTypes.arrayOf(PropTypes.object).isRequired,
-};
+const mapStateToProps = (state) => ({
+  isDataLoaded: state.isDataLoaded,
+});
 
-export default App;
+const mapDispatchToProps = (dispatch) => ({
+  onLoadData() {
+    dispatch(fetchOffersList());
+  },
+});
+
+export {App};
+export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -1,12 +1,14 @@
-import React, {useEffect} from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import {Link} from "react-router-dom";
 import {AppRoute} from "../../../../const";
 import {connect} from "react-redux";
 import {ActionCreator} from "../../../../store/action";
+import {useNavigate} from "react-router-dom";
 
 const OfferCard = (props) => {
-  const {cardData, hoverCardId, onUserHover} = props;
+  const {cardData, onUserHover, authorizationStatus} = props;
+  const navigate = useNavigate();
   const {
     id,
     price,
@@ -51,6 +53,9 @@ const OfferCard = (props) => {
               is_favorite && `place-card__bookmark-button--active`
             } button`}
             type="button"
+            onClick={() =>
+              !authorizationStatus ? navigate(AppRoute.LOGIN) : ""
+            }
           >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
@@ -87,7 +92,7 @@ OfferCard.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  hoverCardId: state.hoverCardId,
+  authorizationStatus: state.authorizationStatus,
 });
 
 const mapDispatchToProps = (dispatch) => ({

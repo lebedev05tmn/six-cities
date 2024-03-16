@@ -13,7 +13,16 @@ const AppFilters = {
   RATING: `Top rated first`,
 };
 
+const AppCities = {
+  PARIS: `Paris`,
+  COLOGNE: `Cologne`,
+  BRUSSELS: `Brussels`,
+  AMSTERDAM: `Amsterdam`,
+  HAMBURG: `Hamburg`,
+  DUSSELDORF: `Dusseldorf`,
+};
+
 const city = [52.38333, 4.9];
 const zoom = 12;
 
-export {AppRoute, city, zoom, AppFilters};
+export {AppRoute, city, zoom, AppFilters, AppCities};

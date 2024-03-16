@@ -1,5 +1,13 @@
 import React from "react";
-const CommentField = () => {
+import {connect} from "react-redux";
+import {ActionCreator} from "../../../store/action";
+import {postComment} from "../../../store/api-actions";
+import {useParams} from "react-router-dom";
+
+const CommentField = (props) => {
+  const {onCommentInput, onRatingInput, comment, rating, onCommentPost} = props;
+  const {id} = useParams();
+
   return (
     <form className="reviews__form form" action="#" method="post">
       <label className="reviews__label form__label" htmlFor="review">
@@ -12,6 +20,7 @@ const CommentField = () => {
           value="5"
           id="5-stars"
           type="radio"
+          onChange={(e) => onRatingInput(e.target.value)}
         />
         <label
           htmlFor="5-stars"
@@ -29,6 +38,7 @@ const CommentField = () => {
           value="4"
           id="4-stars"
           type="radio"
+          onChange={(e) => onRatingInput(e.target.value)}
         />
         <label
           htmlFor="4-stars"
@@ -46,6 +56,7 @@ const CommentField = () => {
           value="3"
           id="3-stars"
           type="radio"
+          onChange={(e) => onRatingInput(e.target.value)}
         />
         <label
           htmlFor="3-stars"
@@ -63,6 +74,7 @@ const CommentField = () => {
           value="2"
           id="2-stars"
           type="radio"
+          onChange={(e) => onRatingInput(e.target.value)}
         />
         <label
           htmlFor="2-stars"
@@ -80,6 +92,7 @@ const CommentField = () => {
           value="1"
           id="1-star"
           type="radio"
+          onChange={(e) => onRatingInput(e.target.value)}
         />
         <label
           htmlFor="1-star"
@@ -96,6 +109,7 @@ const CommentField = () => {
         id="review"
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
+        onChange={(e) => onCommentInput(e.target.value)}
       ></textarea>
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
@@ -108,6 +122,10 @@ const CommentField = () => {
           className="reviews__submit form__submit button"
           type="submit"
           disabled=""
+          onClick={(e) => {
+            e.preventDefault();
+            onCommentPost(id, comment, rating);
+          }}
         >
           Submit
         </button>
@@ -116,4 +134,17 @@ const CommentField = () => {
   );
 };
 
-export default CommentField;
+const mapStateToProps = (state) => ({
+  comment: state.comment,
+  rating: state.rating,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onCommentInput: (comment) => dispatch(ActionCreator.inputComment(comment)),
+  onRatingInput: (rating) => dispatch(ActionCreator.inputRating(rating)),
+  onCommentPost: (id, comment, rating) =>
+    dispatch(postComment(id, {comment, rating})),
+});
+
+export {CommentField};
+export default connect(mapStateToProps, mapDispatchToProps)(CommentField);

@@ -12,7 +12,8 @@ const rootReducer = (state = initialState, action) => {
     case ActionType.ADD_OFFERS:
       return {
         ...state,
-        offers: [...state.offers, action.payload],
+        offers: [...state.offers, ...action.payload],
+        isDataLoaded: true,
       };
     case ActionType.HOVER_CARD:
       return {
@@ -27,9 +28,46 @@ const rootReducer = (state = initialState, action) => {
     case ActionType.CHANGE_FILTER:
       return {
         ...state,
-        offers: filterOffers(initialState.offers, action.payload),
+        offers: filterOffers(state.offers, action.payload),
         openOptions: false,
         filterName: action.payload,
+      };
+    case ActionType.FILL_NEARBIES:
+      return {
+        ...state,
+        nearbies: action.payload,
+        isNearbyLoaded: true,
+      };
+    case ActionType.FILL_COMMENTS:
+      return {
+        ...state,
+        comments: action.payload,
+        isCommentsLoaded: true,
+      };
+    case ActionType.CHANGE_STATUS:
+      return {
+        ...state,
+        authorizationStatus: !state.authorizationStatus,
+      };
+    case ActionType.INPUT_EMAIL:
+      return {
+        ...state,
+        email: action.payload,
+      };
+    case ActionType.INPUT_PASSWORD:
+      return {
+        ...state,
+        password: action.payload,
+      };
+    case ActionType.INPUT_COMMENT:
+      return {
+        ...state,
+        comment: action.payload,
+      };
+    case ActionType.INPUT_RATING:
+      return {
+        ...state,
+        rating: action.payload,
       };
     default:
       return state;

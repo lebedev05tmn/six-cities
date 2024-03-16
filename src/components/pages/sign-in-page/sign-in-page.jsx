@@ -1,9 +1,28 @@
 import React, {useEffect} from "react";
 import {Link} from "react-router-dom";
 import {AppRoute} from "../../../const";
+import {connect} from "react-redux";
+import {useNavigate} from "react-router-dom";
+import {ActionCreator} from "../../../store/action";
+import {login} from "../../../store/api-actions";
 
-const SignInPage = () => {
+const SignInPage = (props) => {
+  const navigate = useNavigate();
+
+  const {
+    authorizationStatus,
+    onUserLogin,
+    onInputEmail,
+    onInputPassword,
+    email,
+    password,
+  } = props;
+
   useEffect(() => {
+    if (authorizationStatus) {
+      navigate(AppRoute.ROOT);
+    }
+
     document.title = `6 citites: authorization`;
   });
 
@@ -53,6 +72,9 @@ const SignInPage = () => {
                   name="email"
                   placeholder="Email"
                   required=""
+                  onChange={(e) => {
+                    onInputEmail(e.target.value);
+                  }}
                 />
               </div>
               <div className="login__input-wrapper form__input-wrapper">
@@ -63,11 +85,18 @@ const SignInPage = () => {
                   name="password"
                   placeholder="Password"
                   required=""
+                  onChange={(e) => {
+                    onInputPassword(e.target.value);
+                  }}
                 />
               </div>
               <button
                 className="login__submit form__submit button"
                 type="submit"
+                onClick={(e) => {
+                  e.preventDefault();
+                  onUserLogin(email, password);
+                }}
               >
                 Sign in
               </button>
@@ -86,4 +115,18 @@ const SignInPage = () => {
   );
 };
 
-export default SignInPage;
+const mapStateToProps = (state) => ({
+  authorizationStatus: state.authorizationStatus,
+  email: state.email,
+  password: state.password,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onUserLogin: (email, password) => dispatch(login(email, password)),
+  onInputEmail: (email) => dispatch(ActionCreator.inputEmail(email)),
+  onInputPassword: (password) =>
+    dispatch(ActionCreator.inputPassword(password)),
+});
+
+export {SignInPage};
+export default connect(mapStateToProps, mapDispatchToProps)(SignInPage);

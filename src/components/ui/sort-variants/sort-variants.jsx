@@ -2,6 +2,7 @@ import React from "react";
 import {connect} from "react-redux";
 import {ActionCreator} from "../../../store/action";
 import {AppFilters} from "../../../const";
+import PropTypes from "prop-types";
 
 const SortVariants = (props) => {
   const {openOptions, onUserOpen, onUserOption, filterName} = props;
@@ -62,7 +63,6 @@ const SortVariants = (props) => {
 
 const mapStateToProps = (state) => ({
   openOptions: state.openOptions,
-  filterOption: state.filterOption,
   filterName: state.filterName,
 });
 
@@ -74,6 +74,13 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(ActionCreator.changeFilter(filter));
   },
 });
+
+SortVariants.propTypes = {
+  openOptions: PropTypes.bool,
+  onUserOpen: PropTypes.func,
+  onUserOption: PropTypes.func,
+  filterName: PropTypes.string,
+};
 
 export {SortVariants};
 export default connect(mapStateToProps, mapDispatchToProps)(SortVariants);

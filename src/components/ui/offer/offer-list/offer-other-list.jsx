@@ -1,7 +1,7 @@
 import React from "react";
 import OfferCard from "../offer-card/offer-card";
 
-const OfferList = (props) => {
+const OfferOtherList = (props) => {
   const {offerData} = props;
   return (
     <section className="near-places places">
@@ -20,4 +20,4 @@ const OfferList = (props) => {
   );
 };
 
-export default OfferList;
+export default OfferOtherList;

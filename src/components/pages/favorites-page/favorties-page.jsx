@@ -1,13 +1,19 @@
 import React, {useEffect} from "react";
+import {AppCities, AppRoute} from "../../../const";
+import {connect} from "react-redux";
 import FavoritesLocation from "../../ui/favorites/favorites-location/favorites-location";
-import PropTypes from "prop-types";
+import {useNavigate} from "react-router-dom";
 
 const FavoritesPage = (props) => {
+  const {offerData, authorizationStatus} = props;
+
+  const navigate = useNavigate();
   useEffect(() => {
+    if (!authorizationStatus) {
+      navigate(AppRoute.LOGIN);
+    }
     document.title = `6 cities: favorites`;
   });
-  const {offerData} = props;
-  let index = 1;
 
   return (
     <main className="page__main page__main--favorites">
@@ -15,10 +21,15 @@ const FavoritesPage = (props) => {
         <section className="favorites">
           <h1 className="favorites__title">Saved listing</h1>
           <ul className="favorites__list">
-            <FavoritesLocation
-              locationData={offerData}
-              key={`amsterdam-${index++}`}
-            />
+            {Object.values(AppCities).map((appCity) => (
+              <FavoritesLocation
+                key={`${appCity}-favorites`}
+                city={appCity}
+                locationData={offerData.filter(
+                  (elem) => elem.city.name === appCity
+                )}
+              />
+            ))}
           </ul>
         </section>
       </div>
@@ -26,8 +37,11 @@ const FavoritesPage = (props) => {
   );
 };
 
-FavoritesPage.propTypes = {
-  offerData: PropTypes.array,
-};
+const mapStateToProps = (state) => ({
+  offerData: state.offers,
+  authorizationStatus: state.authorizationStatus,
+});
 
-export default FavoritesPage;
+export {FavoritesPage};
+
+export default connect(mapStateToProps)(FavoritesPage);

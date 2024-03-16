@@ -1,73 +1,49 @@
 import React, {useEffect} from "react";
-import OfferCard from "../../ui/offer/offer-card/offer-card";
-import Map from "../../ui/offer/offer-map/offer-map";
+import OfferMap from "../../ui/offer/offer-map/offer-map";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
-import SortVariants from "../../ui/sort-variants/sort-variants";
+import {AppCities} from "../../../const";
+import {ActionCreator} from "../../../store/action";
+import OfferMainList from "../../ui/offer/offer-list/offer-main-list";
 
 const MainPage = (props) => {
-  const {offerData, city} = props;
+  const {offerData, city, onChangeCity} = props;
   useEffect(() => {
     document.title = `6 cities`;
   });
+
   return (
     <main className="page__main page__main--index">
       <h1 className="visually-hidden">Cities</h1>
       <div className="tabs">
         <section className="locations container">
           <ul className="locations__list tabs__list">
-            <li className="locations__item">
-              <a className="locations__item-link tabs__item" href="#">
-                <span>Paris</span>
-              </a>
-            </li>
-            <li className="locations__item">
-              <a className="locations__item-link tabs__item" href="#">
-                <span>Cologne</span>
-              </a>
-            </li>
-            <li className="locations__item">
-              <a className="locations__item-link tabs__item" href="#">
-                <span>Brussels</span>
-              </a>
-            </li>
-            <li className="locations__item">
-              <a className="locations__item-link tabs__item tabs__item--active">
-                <span>Amsterdam</span>
-              </a>
-            </li>
-            <li className="locations__item">
-              <a className="locations__item-link tabs__item" href="#">
-                <span>Hamburg</span>
-              </a>
-            </li>
-            <li className="locations__item">
-              <a className="locations__item-link tabs__item" href="#">
-                <span>Dusseldorf</span>
-              </a>
-            </li>
+            {Object.values(AppCities).map((appCity) => (
+              <li className="locations__item" key={appCity}>
+                <a
+                  className={
+                    city === appCity
+                      ? `locations__item-link tabs__item tabs__item--active`
+                      : `locations__item-link tabs__item`
+                  }
+                  onClick={() => onChangeCity(appCity)}
+                >
+                  <span>{appCity}</span>
+                </a>
+              </li>
+            ))}
           </ul>
         </section>
       </div>
       <div className="cities">
         <div className="cities__places-container container">
-          <section className="cities__places places">
-            <h2 className="visually-hidden">Places</h2>
-            <b className="places__found">312 places to stay in {city}</b>
-            <SortVariants />
-            <div className="cities__places-list places__list tabs__content">
-              {offerData &&
-                offerData.map((elem) => (
-                  <OfferCard cardData={elem} key={elem.id} />
-                ))}
-            </div>
-          </section>
+          <OfferMainList />
           <div className="cities__right-section">
             <section
               className="cities__map map"
               style={{background: `none`, height: `794px`}}
             >
-              <Map offerData={offerData} />
+              <OfferMap offerData={offerData} />
             </section>
           </div>
         </div>
@@ -85,5 +61,11 @@ const mapStateToProps = (state) => ({
   offerData: state.offers,
 });
 
+const mapDispatchToProps = (dispatch) => ({
+  onChangeCity(city) {
+    dispatch(ActionCreator.changeCity(city));
+  },
+});
+
 export {MainPage};
-export default connect(mapStateToProps)(MainPage);
+export default connect(mapStateToProps, mapDispatchToProps)(MainPage);

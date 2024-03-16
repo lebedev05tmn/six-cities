@@ -2,22 +2,63 @@ import React, {useEffect} from "react";
 import {useParams} from "react-router-dom";
 import CommentField from "../../ui/comments/comment-field";
 import CommentList from "../../ui/comments/comment-list";
-import Map from "../../ui/offer/offer-map/offer-map";
-import OfferList from "../../ui/offer/offer-list/offer-list";
+import OfferMap from "../../ui/offer/offer-map/offer-map";
+import OfferOtherList from "../../ui/offer/offer-list/offer-other-list";
 import PropTypes from "prop-types";
+import NotFoundPage from "../not-found-page/not-found-page";
+import {connect} from "react-redux";
+import {fetchComments, fetchHotelNearby} from "../../../store/api-actions";
+import LoadingScreen from "../../ui/loading-screen/loading-screen";
+import {useNavigate} from "react-router-dom";
+import {AppRoute} from "../../../const";
 
 const RoomPage = (props) => {
-  const {offerData} = props;
-  const offerId = useParams().id;
+  const {
+    offerData,
+    onLoadNearbies,
+    isNearbyLoaded,
+    nearbies,
+    onLoadComments,
+    isCommentsLoaded,
+    comments,
+    authorizationStatus,
+  } = props;
+  const navigate = useNavigate();
+  const {id} = useParams();
+
   useEffect(() => {
     document.title = `6 cities: property`;
-  });
+  }, [id]);
 
-  const currentData = offerData.find(
-    (elem) => Number(elem.id) === Number(offerId)
-  );
-  const {price, rating, title, type, images, is_premium, goods, host} =
-    currentData;
+  useEffect(() => {
+    if (!isNearbyLoaded) {
+      onLoadNearbies(id);
+    }
+  }, [id, isNearbyLoaded]);
+
+  useEffect(() => {
+    if (!isNearbyLoaded) {
+      onLoadComments(id);
+    }
+  }, [id, isCommentsLoaded]);
+
+  if (!isNearbyLoaded || !isCommentsLoaded) {
+    return <LoadingScreen />;
+  }
+
+  const currentData = offerData.find((elem) => Number(elem.id) === Number(id));
+  if (!currentData) return <NotFoundPage />;
+  const {
+    price,
+    rating,
+    title,
+    type,
+    images,
+    is_premium,
+    goods,
+    host,
+    description,
+  } = currentData;
 
   return (
     currentData && (
@@ -25,48 +66,15 @@ const RoomPage = (props) => {
         <section className="property">
           <div className="property__gallery-container container">
             <div className="property__gallery">
-              <div className="property__image-wrapper">
-                <img
-                  className="property__image"
-                  src="img/room.jpg"
-                  alt="Photo studio"
-                />
-              </div>
-              <div className="property__image-wrapper">
-                <img
-                  className="property__image"
-                  src="img/apartment-01.jpg"
-                  alt="Photo studio"
-                />
-              </div>
-              <div className="property__image-wrapper">
-                <img
-                  className="property__image"
-                  src="img/apartment-02.jpg"
-                  alt="Photo studio"
-                />
-              </div>
-              <div className="property__image-wrapper">
-                <img
-                  className="property__image"
-                  src="img/apartment-03.jpg"
-                  alt="Photo studio"
-                />
-              </div>
-              <div className="property__image-wrapper">
-                <img
-                  className="property__image"
-                  src="img/studio-01.jpg"
-                  alt="Photo studio"
-                />
-              </div>
-              <div className="property__image-wrapper">
-                <img
-                  className="property__image"
-                  src="img/apartment-01.jpg"
-                  alt="Photo studio"
-                />
-              </div>
+              {images.slice(0, 6).map((image) => (
+                <div className="property__image-wrapper" key={image}>
+                  <img
+                    className="property__image"
+                    src={image}
+                    alt="Photo studio"
+                  />
+                </div>
+              ))}
             </div>
           </div>
           <div className="property__container container">
@@ -81,6 +89,9 @@ const RoomPage = (props) => {
                 <button
                   className="property__bookmark-button button"
                   type="button"
+                  onClick={() =>
+                    !authorizationStatus ? navigate(AppRoute.LOGIN) : ""
+                  }
                 >
                   <svg
                     className="property__bookmark-icon"
@@ -103,7 +114,7 @@ const RoomPage = (props) => {
               </div>
               <ul className="property__features">
                 <li className="property__feature property__feature--entire">
-                  {type}
+                  {type.charAt(0).toUpperCase() + type.slice(1)}
                 </li>
                 <li className="property__feature property__feature--bedrooms">
                   3 Bedrooms
@@ -132,7 +143,7 @@ const RoomPage = (props) => {
                   <div className="property__avatar-wrapper property__avatar-wrapper--pro user__avatar-wrapper">
                     <img
                       className="property__avatar user__avatar"
-                      src="img/avatar-angelina.jpg"
+                      src={host.avatar_url}
                       width="74"
                       height="74"
                       alt="Host avatar"
@@ -144,38 +155,29 @@ const RoomPage = (props) => {
                   </span>
                 </div>
                 <div className="property__description">
-                  <p className="property__text">
-                    A quiet cozy and picturesque that hides behind a a river by
-                    the unique lightness of Amsterdam. The building is green and
-                    from 18th century.
-                  </p>
-                  <p className="property__text">
-                    An independent House, strategically located between Rembrand
-                    Square and National Opera, but where the bustle of the city
-                    comes to rest in this alley flowery and colorful.
-                  </p>
+                  <p className="property__text">{description}</p>
                 </div>
               </div>
               <section className="property__reviews reviews">
                 <h2 className="reviews__title">
                   Reviews &middot;
                   <span className="reviews__amount">
-                    {currentData.comments ? currentData.comments.length : 0}
+                    {comments ? comments.length : 0}
                   </span>
                 </h2>
-                {currentData.comments && (
-                  <CommentList currentData={currentData} />
+                {comments && comments.length && (
+                  <CommentList key={currentData.id} currentData={comments} />
                 )}
-                <CommentField />
+                {authorizationStatus && <CommentField />}
               </section>
             </div>
           </div>
           <section className="property__map map">
-            <Map offerData={offerData} />
+            {nearbies && <OfferMap offerData={nearbies} />}
           </section>
         </section>
         <div className="container">
-          <OfferList offerData={offerData.slice(0, 3)} />
+          {nearbies && <OfferOtherList offerData={nearbies} />}
         </div>
       </main>
     )
@@ -186,4 +188,20 @@ RoomPage.propTypes = {
   offerData: PropTypes.array,
 };
 
-export default RoomPage;
+const mapDispatchToProps = (dispatch) => ({
+  onLoadNearbies: (id) => dispatch(fetchHotelNearby(id)),
+  onLoadComments: (id) => dispatch(fetchComments(id)),
+});
+
+const mapStateToProps = (state) => ({
+  offerData: state.offers,
+  isNearbyLoaded: state.isNearbyLoaded,
+  nearbies: state.nearbies,
+  authorizationStatus: state.authorizationStatus,
+  isCommentsLoaded: state.isCommentsLoaded,
+  comments: state.comments,
+  authorizationStatus: state.authorizationStatus,
+});
+
+export {RoomPage};
+export default connect(mapStateToProps, mapDispatchToProps)(RoomPage);

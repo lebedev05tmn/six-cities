@@ -1,6 +1,6 @@
 import React from "react";
-import Header from "../../layout/header";
-import Footer from "../../layout/footer/footer";
+import Header from "../header/header";
+import Footer from "../footer/footer";
 const Page = ({isMain, children}) => {
   return (
     <div className={isMain ? `page page--gray page--main` : `page`}>
