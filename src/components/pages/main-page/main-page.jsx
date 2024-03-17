@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
 import OfferMap from "../../ui/offer/offer-map/offer-map";
 import {connect} from "react-redux";
-import {ActionCreator} from "../../../store/action";
+import {changeCity} from "../../../store/action";
 import OfferMainList from "../../ui/offer/offer-list/offer-main-list";
 import CityVariants from "../../services/city-variants/city-variants";
 import AppTypes from "../../../types/types";
@@ -37,14 +37,14 @@ const MainPage = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  city: state.city,
-  offerData: state.offers,
+const mapStateToProps = ({INTERFACE, DATA}) => ({
+  city: INTERFACE.city,
+  offerData: DATA.offers,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onChangeCity(city) {
-    dispatch(ActionCreator.changeCity(city));
+    dispatch(changeCity(city));
   },
 });
 

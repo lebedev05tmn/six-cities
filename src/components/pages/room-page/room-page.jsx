@@ -191,13 +191,13 @@ const mapDispatchToProps = (dispatch) => ({
   onLoadComments: (id) => dispatch(fetchComments(id)),
 });
 
-const mapStateToProps = (state) => ({
-  offerData: state.offers,
-  isNearbyLoaded: state.isNearbyLoaded,
-  nearbies: state.nearbies,
-  authorizationStatus: state.authorizationStatus,
-  isCommentsLoaded: state.isCommentsLoaded,
-  comments: state.comments,
+const mapStateToProps = ({DATA, LOGIN}) => ({
+  offerData: DATA.offers,
+  isNearbyLoaded: DATA.isNearbyLoaded,
+  nearbies: DATA.nearbies,
+  authorizationStatus: LOGIN.authorizationStatus,
+  isCommentsLoaded: DATA.isCommentsLoaded,
+  comments: DATA.comments,
 });
 
 RoomPage.propTypes = {

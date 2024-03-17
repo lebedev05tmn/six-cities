@@ -1,6 +1,6 @@
 import React from "react";
 import {connect} from "react-redux";
-import {ActionCreator} from "../../../store/action";
+import {inputComment, inputRating} from "../../../store/action";
 import {postComment} from "../../../store/api-actions";
 import {useParams} from "react-router-dom";
 import AppTypes from "../../../types/types";
@@ -135,14 +135,14 @@ const CommentField = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  comment: state.comment,
-  rating: state.rating,
+const mapStateToProps = ({DATA, POST}) => ({
+  comment: DATA.comment,
+  rating: POST.rating,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onCommentInput: (comment) => dispatch(ActionCreator.inputComment(comment)),
-  onRatingInput: (rating) => dispatch(ActionCreator.inputRating(rating)),
+  onCommentInput: (comment) => dispatch(inputComment(comment)),
+  onRatingInput: (rating) => dispatch(inputRating(rating)),
   onCommentPost: (id, comment, rating) =>
     dispatch(postComment(id, {comment, rating})),
 });

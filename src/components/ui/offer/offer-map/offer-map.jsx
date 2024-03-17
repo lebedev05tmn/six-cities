@@ -61,9 +61,9 @@ const OfferMap = (props) => {
   return <div id="map" style={{height: `100%`, width: `100%`}} />;
 };
 
-const mapStateToProps = (state) => ({
-  hoverCardId: state.hoverCardId,
-  offerCity: state.city,
+const mapStateToProps = ({INTERFACE}) => ({
+  hoverCardId: INTERFACE.hoverCardId,
+  offerCity: INTERFACE.city,
 });
 
 OfferMap.propTypes = {
@@ -77,6 +77,7 @@ export {OfferMap};
 export default connect(mapStateToProps)(
   memo(OfferMap, (prevProps, nextProps) => {
     return (
+      prevProps.offerData.length === nextProps.offerData.length &&
       prevProps.offerCity === nextProps.offerCity &&
       prevProps.hoverCardId === nextProps.hoverCardId
     );

@@ -3,7 +3,7 @@ import {parseDate} from "../../../utils/utils";
 import AppTypes from "../../../types/types";
 
 const CommentItem = (props) => {
-  const {username, comment, rating, date} = props.data;
+  const {username, comment, rating, date} = props.commentData;
   return (
     <li className="reviews__item">
       <div className="reviews__user user">
@@ -35,7 +35,7 @@ const CommentItem = (props) => {
 };
 
 CommentItem.propTypes = {
-  data: AppTypes.comment,
+  commentData: AppTypes.comment,
 };
 
 export default CommentItem;

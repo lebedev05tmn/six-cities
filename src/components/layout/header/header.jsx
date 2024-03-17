@@ -47,8 +47,8 @@ const Header = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  authorizationStatus: state.authorizationStatus,
+const mapStateToProps = ({LOGIN}) => ({
+  authorizationStatus: LOGIN.authorizationStatus,
 });
 
 Header.propTypes = {

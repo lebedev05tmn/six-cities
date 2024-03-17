@@ -7,7 +7,7 @@ const CommentList = (props) => {
   return (
     <ul className="reviews__list">
       {currentData.map((comment, index) => (
-        <CommentItem data={comment} key={`user-comment-` + index} />
+        <CommentItem commentData={comment} key={`user-comment-` + index} />
       ))}
     </ul>
   );

@@ -1,6 +1,6 @@
 import React, {memo} from "react";
 import {connect} from "react-redux";
-import {ActionCreator} from "../../../store/action";
+import {openOptions, changeFilter} from "../../../store/action";
 import {AppFilters} from "../../../const";
 import AppTypes from "../../../types/types";
 
@@ -45,17 +45,17 @@ const SortVariants = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  openOptions: state.openOptions,
-  filterName: state.filterName,
+const mapStateToProps = ({INTERFACE, DATA}) => ({
+  openOptions: INTERFACE.openOptions,
+  filterName: DATA.filterName,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onUserOpen(isOpened) {
-    dispatch(ActionCreator.openOptions(isOpened));
+    dispatch(openOptions(isOpened));
   },
   onUserOption(filter) {
-    dispatch(ActionCreator.changeFilter(filter));
+    dispatch(changeFilter(filter));
   },
 });
 

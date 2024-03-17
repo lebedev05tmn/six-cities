@@ -20,9 +20,9 @@ const App = (props) => {
     }
   }, [isDataLoaded]);
   if (!isDataLoaded) {
+    console.log("error");
     return <LoadingScreen />;
   }
-
   return (
     <BrowserRouter>
       <Routes>
@@ -57,8 +57,8 @@ const App = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  isDataLoaded: state.isDataLoaded,
+const mapStateToProps = ({DATA}) => ({
+  isDataLoaded: DATA.isDataLoaded,
 });
 
 const mapDispatchToProps = (dispatch) => ({

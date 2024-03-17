@@ -3,13 +3,14 @@ import {Link} from "react-router-dom";
 import {AppRoute} from "../../../const";
 import {connect} from "react-redux";
 import {useNavigate} from "react-router-dom";
-import {ActionCreator} from "../../../store/action";
+import {inputPassword, inputEmail} from "../../../store/action";
 import {login} from "../../../store/api-actions";
 import AppTypes from "../../../types/types";
+import LoginForm from "../../services/login-form/login-form";
 
 const SignInPage = (props) => {
   const navigate = useNavigate();
-
+  console.info("signign");
   const {
     authorizationStatus,
     onUserLogin,
@@ -65,44 +66,13 @@ const SignInPage = (props) => {
         <div className="page__login-container container">
           <section className="login">
             <h1 className="login__title">Sign in</h1>
-            <form className="login__form form" action="#" method="post">
-              <div className="login__input-wrapper form__input-wrapper">
-                <label className="visually-hidden">E-mail</label>
-                <input
-                  className="login__input form__input"
-                  type="email"
-                  name="email"
-                  placeholder="Email"
-                  required=""
-                  onChange={(e) => {
-                    onInputEmail(e.target.value);
-                  }}
-                />
-              </div>
-              <div className="login__input-wrapper form__input-wrapper">
-                <label className="visually-hidden">Password</label>
-                <input
-                  className="login__input form__input"
-                  type="password"
-                  name="password"
-                  placeholder="Password"
-                  required=""
-                  onChange={(e) => {
-                    onInputPassword(e.target.value);
-                  }}
-                />
-              </div>
-              <button
-                className="login__submit form__submit button"
-                type="submit"
-                onClick={(e) => {
-                  e.preventDefault();
-                  onUserLogin(email, password);
-                }}
-              >
-                Sign in
-              </button>
-            </form>
+            <LoginForm
+              onUserLogin={onUserLogin}
+              onInputEmail={onInputEmail}
+              onInputPassword={onInputPassword}
+              email={email}
+              password={password}
+            />
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
@@ -117,18 +87,17 @@ const SignInPage = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  authorizationStatus: state.authorizationStatus,
-  email: state.email,
-  password: state.password,
-  city: state.city,
+const mapStateToProps = ({LOGIN, POST, INTERFACE}) => ({
+  authorizationStatus: LOGIN.authorizationStatus,
+  email: POST.email,
+  password: POST.password,
+  city: INTERFACE.city,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onUserLogin: (email, password) => dispatch(login(email, password)),
-  onInputEmail: (email) => dispatch(ActionCreator.inputEmail(email)),
-  onInputPassword: (password) =>
-    dispatch(ActionCreator.inputPassword(password)),
+  onInputEmail: (email) => dispatch(inputEmail(email)),
+  onInputPassword: (password) => dispatch(inputPassword(password)),
 });
 
 SignInPage.propTypes = {

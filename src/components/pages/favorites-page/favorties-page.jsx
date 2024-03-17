@@ -28,9 +28,9 @@ const FavoritesPage = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  offerData: state.offers,
-  authorizationStatus: state.authorizationStatus,
+const mapStateToProps = ({DATA, LOGIN}) => ({
+  offerData: DATA.offers,
+  authorizationStatus: LOGIN.authorizationStatus,
 });
 
 FavoritesPage.propTypes = {

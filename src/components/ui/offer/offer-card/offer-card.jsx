@@ -2,7 +2,7 @@ import React from "react";
 import {Link} from "react-router-dom";
 import {AppRoute} from "../../../../const";
 import {connect} from "react-redux";
-import {ActionCreator} from "../../../../store/action";
+import {hoverCard} from "../../../../store/action";
 import {useNavigate} from "react-router-dom";
 import AppTypes from "../../../../types/types";
 
@@ -76,13 +76,13 @@ const OfferCard = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  authorizationStatus: state.authorizationStatus,
+const mapStateToProps = ({LOGIN}) => ({
+  authorizationStatus: LOGIN.authorizationStatus,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onUserHover(id) {
-    dispatch(ActionCreator.hoverCard(id));
+    dispatch(hoverCard(id));
   },
 });
 

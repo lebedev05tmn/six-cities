@@ -49,16 +49,16 @@ const commentPropTypes = {
 };
 
 const AppTypes = {
-  anyFunction: PropTypes,
+  anyFunction: PropTypes.func,
   anyFlag: PropTypes.bool,
   offer: offerPropTypes,
   offerData: PropTypes.arrayOf(offerPropTypes),
   component: PropTypes.element,
   city: PropTypes.string,
-  commentList: PropTypes.arrayOf(commentPropTypes),
-  comment: commentPropTypes,
+  commentList: PropTypes.array || PropTypes.arrayOf(commentPropTypes),
+  comment: PropTypes.any || commentPropTypes,
   anyInput: PropTypes.string,
-  rating: PropTypes.number,
+  rating: PropTypes.number || PropTypes.string,
   anyId: PropTypes.number,
 };
 

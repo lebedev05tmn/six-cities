@@ -26,9 +26,9 @@ const OfferMainList = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  city: state.city,
-  offerData: state.offers,
+const mapStateToProps = ({INTERFACE, DATA}) => ({
+  city: INTERFACE.city,
+  offerData: DATA.offers,
 });
 
 OfferMainList.propTypes = {
