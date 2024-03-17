@@ -1,7 +1,8 @@
 import React from "react";
-import SortVariants from "../../sort-variants/sort-variants";
+import SortVariants from "../../../services/sort-variants/sort-variants";
 import OfferCard from "../offer-card/offer-card";
 import {connect} from "react-redux";
+import AppTypes from "../../../../types/types";
 
 const OfferMainList = (props) => {
   const {city, offerData} = props;
@@ -18,7 +19,7 @@ const OfferMainList = (props) => {
           offerData
             .filter((elem) => elem.city.name === city)
             .map((elem) => (
-              <OfferCard cardData={elem} key={`comments-` + elem.id} />
+              <OfferCard cardData={elem} key={`card-` + elem.id} />
             ))}
       </div>
     </section>
@@ -29,6 +30,11 @@ const mapStateToProps = (state) => ({
   city: state.city,
   offerData: state.offers,
 });
+
+OfferMainList.propTypes = {
+  city: AppTypes.city,
+  offerData: AppTypes.offerData,
+};
 
 export {OfferMainList};
 export default connect(mapStateToProps)(OfferMainList);

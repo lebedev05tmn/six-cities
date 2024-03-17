@@ -1,7 +1,7 @@
-import React, {useRef, useEffect} from "react";
-import PropTypes from "prop-types";
+import React, {useRef, useEffect, memo} from "react";
 import leaflet from "leaflet";
 import {connect} from "react-redux";
+import AppTypes from "../../../../types/types";
 import "leaflet/dist/leaflet.css";
 
 const OfferMap = (props) => {
@@ -19,17 +19,11 @@ const OfferMap = (props) => {
 
       if (cityData) {
         mapRef.current = leaflet.map(`map`, {
-          center:
-            hoverCardId === null
-              ? [
-                  cityData.city.location.latitude,
-                  cityData.city.location.longitude,
-                ]
-              : [cityData.location.latitude, cityData.location.longitude],
-          zoom:
-            hoverCardId === null
-              ? cityData.city.location.zoom
-              : cityData.location.zoom,
+          center: [
+            cityData.city.location.latitude,
+            cityData.city.location.longitude,
+          ],
+          zoom: cityData.city.location.zoom,
           zoomControl: true,
           marker: true,
         });
@@ -46,9 +40,7 @@ const OfferMap = (props) => {
             .marker([element.location.latitude, element.location.longitude], {
               icon: leaflet.icon({
                 iconUrl:
-                  hoverCardId === null
-                    ? `/img/pin.svg`
-                    : hoverCardId === element.id
+                  hoverCardId !== null && hoverCardId === element.id
                     ? `/img/pin-active.svg`
                     : `/img/pin.svg`,
                 iconSize: [30, 30],
@@ -66,11 +58,7 @@ const OfferMap = (props) => {
     };
   }, [offerData, hoverCardId, offerCity]);
 
-  return <div id="map" style={{height: `100%`, width: `100%`}} ref={mapRef} />;
-};
-
-OfferMap.propTypes = {
-  offerData: PropTypes.array,
+  return <div id="map" style={{height: `100%`, width: `100%`}} />;
 };
 
 const mapStateToProps = (state) => ({
@@ -78,5 +66,19 @@ const mapStateToProps = (state) => ({
   offerCity: state.city,
 });
 
+OfferMap.propTypes = {
+  offerData: AppTypes.offerData,
+  hoverCardId: AppTypes.anyId,
+  offerCity: AppTypes.city,
+};
+
 export {OfferMap};
-export default connect(mapStateToProps)(OfferMap);
+
+export default connect(mapStateToProps)(
+  memo(OfferMap, (prevProps, nextProps) => {
+    return (
+      prevProps.offerCity === nextProps.offerCity &&
+      prevProps.hoverCardId === nextProps.hoverCardId
+    );
+  })
+);

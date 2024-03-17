@@ -2,10 +2,10 @@ import React from "react";
 import {Link} from "react-router-dom";
 import {AppRoute} from "../../../const";
 import {connect} from "react-redux";
+import AppTypes from "../../../types/types";
 
 const Header = (props) => {
   const {authorizationStatus} = props;
-
   return (
     <header className="header">
       <div className="container">
@@ -50,6 +50,10 @@ const Header = (props) => {
 const mapStateToProps = (state) => ({
   authorizationStatus: state.authorizationStatus,
 });
+
+Header.propTypes = {
+  authorizationStatus: AppTypes.anyFlag,
+};
 
 export {Header};
 export default connect(mapStateToProps)(Header);

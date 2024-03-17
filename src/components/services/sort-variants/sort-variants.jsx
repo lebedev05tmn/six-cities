@@ -1,8 +1,8 @@
-import React from "react";
+import React, {memo} from "react";
 import {connect} from "react-redux";
 import {ActionCreator} from "../../../store/action";
 import {AppFilters} from "../../../const";
-import PropTypes from "prop-types";
+import AppTypes from "../../../types/types";
 
 const SortVariants = (props) => {
   const {openOptions, onUserOpen, onUserOption, filterName} = props;
@@ -24,38 +24,22 @@ const SortVariants = (props) => {
           openOptions && `places__options--opened`
         }`}
       >
-        <li
-          className="places__option places__option--active"
-          tabIndex="0"
-          onClick={() => {
-            onUserOption(AppFilters.POPULAR);
-          }}
-        >
-          {AppFilters.POPULAR}
-        </li>
-        <li
-          className="places__option"
-          tabIndex="0"
-          onClick={() => {
-            onUserOption(AppFilters.LOW_PRICE);
-          }}
-        >
-          {AppFilters.LOW_PRICE}
-        </li>
-        <li
-          className="places__option"
-          tabIndex="0"
-          onClick={() => onUserOption(AppFilters.HIGH_PRICE)}
-        >
-          {AppFilters.HIGH_PRICE}
-        </li>
-        <li
-          className="places__option"
-          tabIndex="0"
-          onClick={() => onUserOption(AppFilters.RATING)}
-        >
-          {AppFilters.RATING}
-        </li>
+        {Object.values(AppFilters).map((appFilter) => (
+          <li
+            className={
+              filterName === appFilter
+                ? `places__option places__option--active`
+                : `places__option`
+            }
+            tabIndex="0"
+            key={appFilter}
+            onClick={() => {
+              onUserOption(appFilter);
+            }}
+          >
+            {appFilter}
+          </li>
+        ))}
       </ul>
     </form>
   );
@@ -76,11 +60,22 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 SortVariants.propTypes = {
-  openOptions: PropTypes.bool,
-  onUserOpen: PropTypes.func,
-  onUserOption: PropTypes.func,
-  filterName: PropTypes.string,
+  openOptions: AppTypes.anyFlag,
+  onUserOpen: AppTypes.anyFunction,
+  onUserOption: AppTypes.anyFunction,
+  filterName: AppTypes.anyInput,
 };
 
 export {SortVariants};
-export default connect(mapStateToProps, mapDispatchToProps)(SortVariants);
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(
+  memo(SortVariants, (prevProps, nextProps) => {
+    return (
+      prevProps.filterName === nextProps.filterName &&
+      prevProps.openOptions === nextProps.openOptions
+    );
+  })
+);

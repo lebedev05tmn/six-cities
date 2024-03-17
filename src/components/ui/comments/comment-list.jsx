@@ -1,5 +1,6 @@
 import React from "react";
 import CommentItem from "./comment-item";
+import AppTypes from "../../../types/types";
 
 const CommentList = (props) => {
   const {currentData} = props;
@@ -10,6 +11,10 @@ const CommentList = (props) => {
       ))}
     </ul>
   );
+};
+
+CommentList.propTypes = {
+  currentData: AppTypes.commentList,
 };
 
 export default CommentList;

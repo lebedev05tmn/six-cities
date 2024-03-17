@@ -1,7 +1,7 @@
 import React from "react";
-import PropTypes from "prop-types";
 import {Link} from "react-router-dom";
 import {AppRoute} from "../../../../const";
+import AppTypes from "../../../../types/types";
 
 const FavoritesPlaceCard = (props) => {
   const {locationData} = props;
@@ -52,13 +52,7 @@ const FavoritesPlaceCard = (props) => {
 };
 
 FavoritesPlaceCard.propTypes = {
-  locationData: PropTypes.shape({
-    price: PropTypes.number.isRequired,
-    stars: PropTypes.number.isRequired,
-    title: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    image: PropTypes.string.isRequired,
-  }),
+  locationData: AppTypes.offer,
 };
 
 export default FavoritesPlaceCard;

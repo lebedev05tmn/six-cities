@@ -1,10 +1,10 @@
 import React from "react";
-import PropTypes from "prop-types";
 import {Link} from "react-router-dom";
 import {AppRoute} from "../../../../const";
 import {connect} from "react-redux";
 import {ActionCreator} from "../../../../store/action";
 import {useNavigate} from "react-router-dom";
+import AppTypes from "../../../../types/types";
 
 const OfferCard = (props) => {
   const {cardData, onUserHover, authorizationStatus} = props;
@@ -53,9 +53,7 @@ const OfferCard = (props) => {
               is_favorite && `place-card__bookmark-button--active`
             } button`}
             type="button"
-            onClick={() =>
-              !authorizationStatus ? navigate(AppRoute.LOGIN) : ""
-            }
+            onClick={() => !authorizationStatus && navigate(AppRoute.LOGIN)}
           >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
@@ -78,19 +76,6 @@ const OfferCard = (props) => {
   );
 };
 
-OfferCard.propTypes = {
-  cardData: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    price: PropTypes.number.isRequired,
-    rating: PropTypes.number.isRequired,
-    title: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    preview_image: PropTypes.string.isRequired,
-    is_favorite: PropTypes.bool.isRequired,
-    is_premium: PropTypes.bool.isRequired,
-  }),
-};
-
 const mapStateToProps = (state) => ({
   authorizationStatus: state.authorizationStatus,
 });
@@ -100,6 +85,12 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(ActionCreator.hoverCard(id));
   },
 });
+
+OfferCard.propTypes = {
+  cardData: AppTypes.offer,
+  onUserHover: AppTypes.anyFunction,
+  authorizationStatus: AppTypes.anyFlag,
+};
 
 export {OfferCard};
 export default connect(mapStateToProps, mapDispatchToProps)(OfferCard);

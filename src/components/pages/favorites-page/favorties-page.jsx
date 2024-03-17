@@ -1,8 +1,9 @@
 import React, {useEffect} from "react";
-import {AppCities, AppRoute} from "../../../const";
+import {AppRoute} from "../../../const";
 import {connect} from "react-redux";
-import FavoritesLocation from "../../ui/favorites/favorites-location/favorites-location";
 import {useNavigate} from "react-router-dom";
+import FavoritesList from "../../ui/favorites/favorites-list/favorites-list";
+import AppTypes from "../../../types/types";
 
 const FavoritesPage = (props) => {
   const {offerData, authorizationStatus} = props;
@@ -20,17 +21,7 @@ const FavoritesPage = (props) => {
       <div className="page__favorites-container container">
         <section className="favorites">
           <h1 className="favorites__title">Saved listing</h1>
-          <ul className="favorites__list">
-            {Object.values(AppCities).map((appCity) => (
-              <FavoritesLocation
-                key={`${appCity}-favorites`}
-                city={appCity}
-                locationData={offerData.filter(
-                  (elem) => elem.city.name === appCity
-                )}
-              />
-            ))}
-          </ul>
+          <FavoritesList offerData={offerData} />
         </section>
       </div>
     </main>
@@ -41,6 +32,11 @@ const mapStateToProps = (state) => ({
   offerData: state.offers,
   authorizationStatus: state.authorizationStatus,
 });
+
+FavoritesPage.propTypes = {
+  offerData: AppTypes.offerData,
+  authorizationStatus: AppTypes.anyFlag,
+};
 
 export {FavoritesPage};
 

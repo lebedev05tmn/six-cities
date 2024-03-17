@@ -1,10 +1,10 @@
 import React, {useEffect} from "react";
 import OfferMap from "../../ui/offer/offer-map/offer-map";
-import PropTypes from "prop-types";
 import {connect} from "react-redux";
-import {AppCities} from "../../../const";
 import {ActionCreator} from "../../../store/action";
 import OfferMainList from "../../ui/offer/offer-list/offer-main-list";
+import CityVariants from "../../services/city-variants/city-variants";
+import AppTypes from "../../../types/types";
 
 const MainPage = (props) => {
   const {offerData, city, onChangeCity} = props;
@@ -17,22 +17,7 @@ const MainPage = (props) => {
       <h1 className="visually-hidden">Cities</h1>
       <div className="tabs">
         <section className="locations container">
-          <ul className="locations__list tabs__list">
-            {Object.values(AppCities).map((appCity) => (
-              <li className="locations__item" key={appCity}>
-                <a
-                  className={
-                    city === appCity
-                      ? `locations__item-link tabs__item tabs__item--active`
-                      : `locations__item-link tabs__item`
-                  }
-                  onClick={() => onChangeCity(appCity)}
-                >
-                  <span>{appCity}</span>
-                </a>
-              </li>
-            ))}
-          </ul>
+          <CityVariants city={city} onChangeCity={onChangeCity} />
         </section>
       </div>
       <div className="cities">
@@ -52,10 +37,6 @@ const MainPage = (props) => {
   );
 };
 
-MainPage.propTypes = {
-  offerData: PropTypes.array,
-};
-
 const mapStateToProps = (state) => ({
   city: state.city,
   offerData: state.offers,
@@ -66,6 +47,12 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(ActionCreator.changeCity(city));
   },
 });
+
+MainPage.propTypes = {
+  offerData: AppTypes.offerData,
+  onChangeCity: AppTypes.anyFunction,
+  city: AppTypes.city,
+};
 
 export {MainPage};
 export default connect(mapStateToProps, mapDispatchToProps)(MainPage);

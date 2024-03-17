@@ -10,6 +10,7 @@ import LoadingScreen from "../ui/loading-screen/loading-screen";
 import {AppRoute} from "../../const";
 import {fetchOffersList} from "../../store/api-actions";
 import {connect} from "react-redux";
+import AppTypes from "../../types/types";
 
 const App = (props) => {
   const {onLoadData, isDataLoaded} = props;
@@ -65,6 +66,11 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(fetchOffersList());
   },
 });
+
+App.propTypes = {
+  onLoadData: AppTypes.anyFunction,
+  isDataLoaded: AppTypes.anyFlag,
+};
 
 export {App};
 export default connect(mapStateToProps, mapDispatchToProps)(App);

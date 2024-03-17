@@ -1,5 +1,6 @@
 import React from "react";
 import OfferCard from "../offer-card/offer-card";
+import AppTypes from "../../../../types/types";
 
 const OfferOtherList = (props) => {
   const {offerData} = props;
@@ -18,6 +19,10 @@ const OfferOtherList = (props) => {
       </div>
     </section>
   );
+};
+
+OfferOtherList.propTypes = {
+  offerData: AppTypes.offerData,
 };
 
 export default OfferOtherList;

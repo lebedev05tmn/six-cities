@@ -5,6 +5,7 @@ import {connect} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import {ActionCreator} from "../../../store/action";
 import {login} from "../../../store/api-actions";
+import AppTypes from "../../../types/types";
 
 const SignInPage = (props) => {
   const navigate = useNavigate();
@@ -16,6 +17,7 @@ const SignInPage = (props) => {
     onInputPassword,
     email,
     password,
+    city,
   } = props;
 
   useEffect(() => {
@@ -104,9 +106,9 @@ const SignInPage = (props) => {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <a className="locations__item-link" href="#">
-                <span>Amsterdam</span>
-              </a>
+              <Link className="locations__item-link" to={AppRoute.ROOT}>
+                <span>{city}</span>
+              </Link>
             </div>
           </section>
         </div>
@@ -119,6 +121,7 @@ const mapStateToProps = (state) => ({
   authorizationStatus: state.authorizationStatus,
   email: state.email,
   password: state.password,
+  city: state.city,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -127,6 +130,16 @@ const mapDispatchToProps = (dispatch) => ({
   onInputPassword: (password) =>
     dispatch(ActionCreator.inputPassword(password)),
 });
+
+SignInPage.propTypes = {
+  authorizationStatus: AppTypes.anyFlag,
+  onUserLogin: AppTypes.anyFunction,
+  onInputEmail: AppTypes.anyFunction,
+  onInputPassword: AppTypes.anyFunction,
+  email: AppTypes.anyInput,
+  password: AppTypes.anyInput,
+  city: AppTypes.city,
+};
 
 export {SignInPage};
 export default connect(mapStateToProps, mapDispatchToProps)(SignInPage);

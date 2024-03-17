@@ -3,6 +3,7 @@ import {connect} from "react-redux";
 import {ActionCreator} from "../../../store/action";
 import {postComment} from "../../../store/api-actions";
 import {useParams} from "react-router-dom";
+import AppTypes from "../../../types/types";
 
 const CommentField = (props) => {
   const {onCommentInput, onRatingInput, comment, rating, onCommentPost} = props;
@@ -145,6 +146,14 @@ const mapDispatchToProps = (dispatch) => ({
   onCommentPost: (id, comment, rating) =>
     dispatch(postComment(id, {comment, rating})),
 });
+
+CommentField.propTypes = {
+  onCommentInput: AppTypes.anyFunction,
+  onRatingInput: AppTypes.anyFunction,
+  comment: AppTypes.comment,
+  onCommentPost: AppTypes.anyFunction,
+  rating: AppTypes.rating,
+};
 
 export {CommentField};
 export default connect(mapStateToProps, mapDispatchToProps)(CommentField);

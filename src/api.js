@@ -13,8 +13,7 @@ export const createAPI = () => {
   const onSuccess = (response) => response;
 
   const onFail = (error) => {
-    console.error(`Request failed with error:`, error);
-    throw error;
+    throw new Error(error);
   };
 
   api.interceptors.response.use(onSuccess, onFail);

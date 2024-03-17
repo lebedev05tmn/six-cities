@@ -1,5 +1,6 @@
 import React from "react";
 import {parseDate} from "../../../utils/utils";
+import AppTypes from "../../../types/types";
 
 const CommentItem = (props) => {
   const {username, comment, rating, date} = props.data;
@@ -31,6 +32,10 @@ const CommentItem = (props) => {
       </div>
     </li>
   );
+};
+
+CommentItem.propTypes = {
+  data: AppTypes.comment,
 };
 
 export default CommentItem;

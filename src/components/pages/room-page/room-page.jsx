@@ -4,13 +4,13 @@ import CommentField from "../../ui/comments/comment-field";
 import CommentList from "../../ui/comments/comment-list";
 import OfferMap from "../../ui/offer/offer-map/offer-map";
 import OfferOtherList from "../../ui/offer/offer-list/offer-other-list";
-import PropTypes from "prop-types";
 import NotFoundPage from "../not-found-page/not-found-page";
 import {connect} from "react-redux";
 import {fetchComments, fetchHotelNearby} from "../../../store/api-actions";
 import LoadingScreen from "../../ui/loading-screen/loading-screen";
 import {useNavigate} from "react-router-dom";
 import {AppRoute} from "../../../const";
+import AppTypes from "../../../types/types";
 
 const RoomPage = (props) => {
   const {
@@ -47,7 +47,9 @@ const RoomPage = (props) => {
   }
 
   const currentData = offerData.find((elem) => Number(elem.id) === Number(id));
-  if (!currentData) return <NotFoundPage />;
+  if (!currentData) {
+    return <NotFoundPage />;
+  }
   const {
     price,
     rating,
@@ -90,7 +92,7 @@ const RoomPage = (props) => {
                   className="property__bookmark-button button"
                   type="button"
                   onClick={() =>
-                    !authorizationStatus ? navigate(AppRoute.LOGIN) : ""
+                    !authorizationStatus && navigate(AppRoute.LOGIN)
                   }
                 >
                   <svg
@@ -105,7 +107,7 @@ const RoomPage = (props) => {
               </div>
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">
-                  <span style={{width: `${20 * Math.floor(rating)}%`}}></span>
+                  <span style={{width: `${20 * rating}%`}}></span>
                   <span className="visually-hidden">Rating</span>
                 </div>
                 <span className="property__rating-value rating__value">
@@ -184,10 +186,6 @@ const RoomPage = (props) => {
   );
 };
 
-RoomPage.propTypes = {
-  offerData: PropTypes.array,
-};
-
 const mapDispatchToProps = (dispatch) => ({
   onLoadNearbies: (id) => dispatch(fetchHotelNearby(id)),
   onLoadComments: (id) => dispatch(fetchComments(id)),
@@ -200,8 +198,18 @@ const mapStateToProps = (state) => ({
   authorizationStatus: state.authorizationStatus,
   isCommentsLoaded: state.isCommentsLoaded,
   comments: state.comments,
-  authorizationStatus: state.authorizationStatus,
 });
+
+RoomPage.propTypes = {
+  offerData: AppTypes.offerData,
+  authorizationStatus: AppTypes.anyFlag,
+  isNearbyLoaded: AppTypes.anyFlag,
+  nearbies: AppTypes.offerData,
+  isCommentsLoaded: AppTypes.anyFlag,
+  comments: AppTypes.commentList,
+  onLoadNearbies: AppTypes.anyFunction,
+  onLoadComments: AppTypes.anyFunction,
+};
 
 export {RoomPage};
 export default connect(mapStateToProps, mapDispatchToProps)(RoomPage);
