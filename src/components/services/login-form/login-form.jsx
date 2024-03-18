@@ -1,4 +1,5 @@
 import React from "react";
+import AppTypes from "../../../types/types";
 
 const LoginForm = ({
   onUserLogin,
@@ -47,6 +48,14 @@ const LoginForm = ({
       </button>
     </form>
   );
+};
+
+LoginForm.propTypes = {
+  onUserLogin: AppTypes.anyFunction,
+  onInputEmail: AppTypes.anyFunction,
+  onInputPassword: AppTypes.anyFunction,
+  email: AppTypes.anyInput,
+  password: AppTypes.anyInput,
 };
 
 export default LoginForm;

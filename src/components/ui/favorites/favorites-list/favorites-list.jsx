@@ -10,7 +10,7 @@ const FavoritesList = ({offerData}) => {
         <FavoritesLocation
           key={`${appCity}-favorites`}
           city={appCity}
-          locationData={offerData.filter((elem) => elem.city.name === appCity)}
+          locationData={offerData}
         />
       ))}
     </ul>

@@ -10,7 +10,6 @@ import LoginForm from "../../services/login-form/login-form";
 
 const SignInPage = (props) => {
   const navigate = useNavigate();
-  console.info("signign");
   const {
     authorizationStatus,
     onUserLogin,

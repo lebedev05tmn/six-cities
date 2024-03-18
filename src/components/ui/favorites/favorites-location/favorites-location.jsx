@@ -9,7 +9,7 @@ const FavoritesLocation = (props) => {
   let index = 1;
 
   return (
-    Boolean(locationData.filter((elem) => elem.is_favortite).length) && (
+    Boolean(locationData.filter((elem) => elem.city.name === city).length) && (
       <li className="favorites__locations-items">
         <div className="favorites__locations locations locations--current">
           <div className="locations__item">
@@ -20,7 +20,7 @@ const FavoritesLocation = (props) => {
         </div>
         <div className="favorites__places">
           {locationData
-            .filter((elem) => elem.is_favortite)
+            .filter((elem) => elem.city.name === city)
             .map((place) => (
               <FavoritesPlaceCard
                 locationData={place}

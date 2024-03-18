@@ -11,9 +11,14 @@ import LoadingScreen from "../../ui/loading-screen/loading-screen";
 import {useNavigate} from "react-router-dom";
 import {AppRoute} from "../../../const";
 import AppTypes from "../../../types/types";
+import {postFavoriteOffer} from "../../../store/api-actions";
+import {PostStatus} from "../../../const";
+import {fetchOffer} from "../../../store/api-actions";
 
 const RoomPage = (props) => {
   const {
+    onLoadOffer,
+    isOfferLoaded,
     offerData,
     onLoadNearbies,
     isNearbyLoaded,
@@ -22,6 +27,7 @@ const RoomPage = (props) => {
     isCommentsLoaded,
     comments,
     authorizationStatus,
+    onUserFavorited,
   } = props;
   const navigate = useNavigate();
   const {id} = useParams();
@@ -29,6 +35,12 @@ const RoomPage = (props) => {
   useEffect(() => {
     document.title = `6 cities: property`;
   }, [id]);
+
+  useEffect(() => {
+    if (!isOfferLoaded) {
+      onLoadOffer(id);
+    }
+  }, [id, isOfferLoaded]);
 
   useEffect(() => {
     if (!isNearbyLoaded) {
@@ -42,12 +54,11 @@ const RoomPage = (props) => {
     }
   }, [id, isCommentsLoaded]);
 
-  if (!isNearbyLoaded || !isCommentsLoaded) {
+  if (!isNearbyLoaded || !isCommentsLoaded || !isOfferLoaded) {
     return <LoadingScreen />;
   }
 
-  const currentData = offerData.find((elem) => Number(elem.id) === Number(id));
-  if (!currentData) {
+  if (!offerData) {
     return <NotFoundPage />;
   }
   const {
@@ -60,10 +71,11 @@ const RoomPage = (props) => {
     goods,
     host,
     description,
-  } = currentData;
+    is_favorite,
+  } = offerData;
 
   return (
-    currentData && (
+    offerData && (
       <main className="page__main page__main--property">
         <section className="property">
           <div className="property__gallery-container container">
@@ -89,10 +101,19 @@ const RoomPage = (props) => {
               <div className="property__name-wrapper">
                 <h1 className="property__name">{title}</h1>
                 <button
-                  className="property__bookmark-button button"
+                  className={
+                    is_favorite
+                      ? `property__bookmark-button property__bookmark-button--active button`
+                      : `property__bookmark-button button`
+                  }
                   type="button"
                   onClick={() =>
-                    !authorizationStatus && navigate(AppRoute.LOGIN)
+                    !authorizationStatus
+                      ? navigate(AppRoute.LOGIN)
+                      : onUserFavorited(
+                          id,
+                          !is_favorite ? PostStatus.ADD : PostStatus.REMOVE
+                        )
                   }
                 >
                   <svg
@@ -168,7 +189,7 @@ const RoomPage = (props) => {
                   </span>
                 </h2>
                 {comments && comments.length && (
-                  <CommentList key={currentData.id} currentData={comments} />
+                  <CommentList key={offerData.id} currentData={comments} />
                 )}
                 {authorizationStatus && <CommentField />}
               </section>
@@ -187,12 +208,15 @@ const RoomPage = (props) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
+  onLoadOffer: (id) => dispatch(fetchOffer(id)),
   onLoadNearbies: (id) => dispatch(fetchHotelNearby(id)),
   onLoadComments: (id) => dispatch(fetchComments(id)),
+  onUserFavorited: (id, status) => dispatch(postFavoriteOffer(id, status)),
 });
 
 const mapStateToProps = ({DATA, LOGIN}) => ({
-  offerData: DATA.offers,
+  isOfferLoaded: DATA.isOfferLoaded,
+  offerData: DATA.offer,
   isNearbyLoaded: DATA.isNearbyLoaded,
   nearbies: DATA.nearbies,
   authorizationStatus: LOGIN.authorizationStatus,
@@ -201,7 +225,9 @@ const mapStateToProps = ({DATA, LOGIN}) => ({
 });
 
 RoomPage.propTypes = {
-  offerData: AppTypes.offerData,
+  onLoadOffer: AppTypes.anyFunction,
+  isOfferLoaded: AppTypes.anyFlag,
+  offerData: AppTypes.offer,
   authorizationStatus: AppTypes.anyFlag,
   isNearbyLoaded: AppTypes.anyFlag,
   nearbies: AppTypes.offerData,
@@ -209,6 +235,7 @@ RoomPage.propTypes = {
   comments: AppTypes.commentList,
   onLoadNearbies: AppTypes.anyFunction,
   onLoadComments: AppTypes.anyFunction,
+  onUserFavorited: AppTypes.anyFunction,
 };
 
 export {RoomPage};

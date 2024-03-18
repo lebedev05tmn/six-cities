@@ -5,14 +5,14 @@ import {AppFilters} from "../../../const";
 import AppTypes from "../../../types/types";
 
 const SortVariants = (props) => {
-  const {openOptions, onUserOpen, onUserOption, filterName} = props;
+  const {isOpenOptions, onUserOpen, onUserOption, filterName} = props;
   return (
     <form className="places__sorting" action="#" method="get">
       <span className="places__sorting-caption">Sort by </span>
       <span
         className="places__sorting-type"
         tabIndex="0"
-        onClick={() => onUserOpen(!openOptions)}
+        onClick={() => onUserOpen()}
       >
         {filterName}
         <svg className="places__sorting-arrow" width="7" height="4">
@@ -21,7 +21,7 @@ const SortVariants = (props) => {
       </span>
       <ul
         className={`places__options places__options--custom ${
-          openOptions && `places__options--opened`
+          isOpenOptions && `places__options--opened`
         }`}
       >
         {Object.values(AppFilters).map((appFilter) => (
@@ -46,21 +46,17 @@ const SortVariants = (props) => {
 };
 
 const mapStateToProps = ({INTERFACE, DATA}) => ({
-  openOptions: INTERFACE.openOptions,
+  isOpenOptions: INTERFACE.isOpenOptions,
   filterName: DATA.filterName,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onUserOpen(isOpened) {
-    dispatch(openOptions(isOpened));
-  },
-  onUserOption(filter) {
-    dispatch(changeFilter(filter));
-  },
+  onUserOpen: () => dispatch(openOptions()),
+  onUserOption: (filter) => dispatch(changeFilter(filter)),
 });
 
 SortVariants.propTypes = {
-  openOptions: AppTypes.anyFlag,
+  isOpenOptions: AppTypes.anyFlag,
   onUserOpen: AppTypes.anyFunction,
   onUserOption: AppTypes.anyFunction,
   filterName: AppTypes.anyInput,
@@ -75,7 +71,7 @@ export default connect(
   memo(SortVariants, (prevProps, nextProps) => {
     return (
       prevProps.filterName === nextProps.filterName &&
-      prevProps.openOptions === nextProps.openOptions
+      prevProps.isOpenOptions === nextProps.isOpenOptions
     );
   })
 );

@@ -22,7 +22,12 @@ const AppCities = {
   DUSSELDORF: `Dusseldorf`,
 };
 
+const PostStatus = {
+  ADD: `Add`,
+  REMOVE: `Remove`,
+};
+
 const city = [52.38333, 4.9];
 const zoom = 12;
 
-export {AppRoute, city, zoom, AppFilters, AppCities};
+export {AppRoute, city, zoom, AppFilters, AppCities, PostStatus};

@@ -20,7 +20,6 @@ const App = (props) => {
     }
   }, [isDataLoaded]);
   if (!isDataLoaded) {
-    console.log("error");
     return <LoadingScreen />;
   }
   return (
@@ -62,9 +61,7 @@ const mapStateToProps = ({DATA}) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onLoadData() {
-    dispatch(fetchOffersList());
-  },
+  onLoadData: () => dispatch(fetchOffersList()),
 });
 
 App.propTypes = {

@@ -1,23 +1,26 @@
 export const ActionType = {
   INTERFACE: {
-    CHANGE_CITY: "INTERFACE/change-city",
-    HOVER_CARD: "INTERFACE/hover-card",
-    OPEN_OPTIONS: "INTERFACE/open-options",
+    CHANGE_CITY: `INTERFACE/change-city`,
+    HOVER_CARD: `INTERFACE/hover-card`,
+    OPEN_OPTIONS: `INTERFACE/open-options`,
   },
   DATA: {
-    ADD_OFFERS: "DATA/add-offers",
-    FILTER_OFFERS: "DATA/filter-offers",
-    FILL_NEARBIES: "DATA/fill-nearbies",
-    FILL_COMMENTS: "DATA/fill-comments",
+    FILL_OFFERS: `DATA/fill-offers`,
+    FILL_OFFER: `DATA/fill-offer`,
+    FILTER_OFFERS: `DATA/filter-offers`,
+    FILL_NEARBIES: `DATA/fill-nearbies`,
+    FILL_COMMENTS: `DATA/fill-comments`,
+    FILL_FAVORITES: `DATA/fill-favorites`,
+    CHANGE_FILTER: `DATA/change-filter`,
   },
   LOGIN: {
-    CHANGE_STATUS: "LOGIN/change-status",
+    CHANGE_STATUS: `LOGIN/change-status`,
   },
   POST: {
-    INPUT_EMAIL: "POST/input-email",
-    INPUT_PASSWORD: "POST/input-password",
-    INPUT_COMMENT: "POST/input-comment",
-    INPUT_RATING: "POST/input-rating",
+    INPUT_EMAIL: `POST/input-email`,
+    INPUT_PASSWORD: `POST/input-password`,
+    INPUT_COMMENT: `POST/input-comment`,
+    INPUT_RATING: `POST/input-rating`,
   },
 };
 
@@ -31,14 +34,18 @@ export const hoverCard = (id) => ({
   payload: id,
 });
 
-export const openOptions = (isOpened) => ({
+export const openOptions = () => ({
   type: ActionType.INTERFACE.OPEN_OPTIONS,
-  payload: isOpened,
 });
 
-export const addOffers = (offersData) => ({
-  type: ActionType.DATA.ADD_OFFERS,
+export const fillOffers = (offersData) => ({
+  type: ActionType.DATA.FILL_OFFERS,
   payload: offersData,
+});
+
+export const fillOffer = (offerData) => ({
+  type: ActionType.DATA.FILL_OFFER,
+  payload: offerData,
 });
 
 export const changeFilter = (filter) => ({
@@ -54,6 +61,11 @@ export const fillNearbies = (nearby) => ({
 export const fillComments = (comments) => ({
   type: ActionType.DATA.FILL_COMMENTS,
   payload: comments,
+});
+
+export const fillFavorites = (favorites) => ({
+  type: ActionType.DATA.FILL_FAVORITES,
+  payload: favorites,
 });
 
 export const changeStatus = () => ({

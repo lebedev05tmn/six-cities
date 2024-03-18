@@ -5,7 +5,7 @@ import {connect} from "react-redux";
 import AppTypes from "../../../types/types";
 
 const Header = (props) => {
-  const {authorizationStatus} = props;
+  const {authorizationStatus, email} = props;
   return (
     <header className="header">
       <div className="container">
@@ -33,9 +33,7 @@ const Header = (props) => {
                 >
                   <div className="header__avatar-wrapper user__avatar-wrapper"></div>
                   <span className="header__user-name user__name">
-                    {authorizationStatus
-                      ? `Oliver.conner@gmail.com`
-                      : `Sign in`}
+                    {authorizationStatus ? email : `Sign in`}
                   </span>
                 </Link>
               </li>
@@ -47,12 +45,14 @@ const Header = (props) => {
   );
 };
 
-const mapStateToProps = ({LOGIN}) => ({
+const mapStateToProps = ({LOGIN, POST}) => ({
   authorizationStatus: LOGIN.authorizationStatus,
+  email: POST.email,
 });
 
 Header.propTypes = {
   authorizationStatus: AppTypes.anyFlag,
+  email: AppTypes.anyInput,
 };
 
 export {Header};

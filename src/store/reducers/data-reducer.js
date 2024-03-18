@@ -10,21 +10,32 @@ const initialState = {
   isNearbyLoaded: false,
   comments: [],
   isCommentsLoaded: false,
+  favorites: [],
+  isFavoritesLoaded: false,
+  offer: {},
+  isOfferLoaded: false,
 };
 
 const dataReducer = (state = initialState, action) => {
   switch (action.type) {
-    case ActionType.DATA.ADD_OFFERS:
+    case ActionType.DATA.FILL_OFFERS:
       return {
         ...state,
-        offers: [...state.offers, ...action.payload],
+        offers: action.payload,
         isDataLoaded: true,
       };
+    case ActionType.DATA.FILL_OFFER:
+      return {
+        ...state,
+        offer: action.payload,
+        isOfferLoaded: true,
+      };
+
     case ActionType.DATA.CHANGE_FILTER:
       return {
         ...state,
         offers: filterOffers(state.offers, action.payload),
-        openOptions: false,
+        isOpenOptions: false,
         filterName: action.payload,
       };
     case ActionType.DATA.FILL_NEARBIES:
@@ -38,6 +49,12 @@ const dataReducer = (state = initialState, action) => {
         ...state,
         comments: action.payload,
         isCommentsLoaded: true,
+      };
+    case ActionType.DATA.FILL_FAVORITES:
+      return {
+        ...state,
+        favorites: action.payload,
+        isFavoritesLoaded: true,
       };
   }
   return state;

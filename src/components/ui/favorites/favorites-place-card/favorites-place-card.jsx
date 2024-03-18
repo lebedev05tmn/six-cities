@@ -2,9 +2,12 @@ import React from "react";
 import {Link} from "react-router-dom";
 import {AppRoute} from "../../../../const";
 import AppTypes from "../../../../types/types";
+import {connect} from "react-redux";
+import {postFavoriteOffer} from "../../../../store/api-actions";
+import {PostStatus} from "../../../../const";
 
 const FavoritesPlaceCard = (props) => {
-  const {locationData} = props;
+  const {locationData, onUserFavorited} = props;
   const {id, price, rating, title, type, preview_image} = locationData;
 
   return (
@@ -29,6 +32,7 @@ const FavoritesPlaceCard = (props) => {
           <button
             className="place-card__bookmark-button place-card__bookmark-button--active button"
             type="button"
+            onClick={() => onUserFavorited(id, PostStatus.REMOVE)}
           >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
@@ -51,8 +55,14 @@ const FavoritesPlaceCard = (props) => {
   );
 };
 
+const mapDispatchToProps = (dispatch) => ({
+  onUserFavorited: (id, status) => dispatch(postFavoriteOffer(id, status)),
+});
+
 FavoritesPlaceCard.propTypes = {
   locationData: AppTypes.offer,
+  onUserFavorited: AppTypes.anyFunction,
 };
 
-export default FavoritesPlaceCard;
+export {FavoritesPlaceCard};
+export default connect(() => ({}), mapDispatchToProps)(FavoritesPlaceCard);

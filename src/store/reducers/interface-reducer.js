@@ -1,9 +1,10 @@
+import {AppCities} from "../../const";
 import {ActionType} from "../action";
 
 const initialState = {
-  city: "Paris",
+  city: AppCities.PARIS,
   hoverCardId: null,
-  openOptions: false,
+  isOpenOptions: false,
 };
 
 const interfaceReducer = (state = initialState, action) => {
@@ -21,7 +22,7 @@ const interfaceReducer = (state = initialState, action) => {
     case ActionType.INTERFACE.OPEN_OPTIONS:
       return {
         ...state,
-        openOptions: action.payload,
+        isOpenOptions: !state.isOpenOptions,
       };
   }
   return state;

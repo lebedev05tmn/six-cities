@@ -18,8 +18,8 @@ const OfferMainList = (props) => {
         {offerData &&
           offerData
             .filter((elem) => elem.city.name === city)
-            .map((elem) => (
-              <OfferCard cardData={elem} key={`card-` + elem.id} />
+            .map((elem, index) => (
+              <OfferCard cardData={elem} key={`favorite-card-${index}`} />
             ))}
       </div>
     </section>

@@ -4,10 +4,12 @@ import {AppRoute} from "../../../../const";
 import {connect} from "react-redux";
 import {hoverCard} from "../../../../store/action";
 import {useNavigate} from "react-router-dom";
+import {postFavoriteOffer} from "../../../../store/api-actions";
+import {PostStatus} from "../../../../const";
 import AppTypes from "../../../../types/types";
 
 const OfferCard = (props) => {
-  const {cardData, onUserHover, authorizationStatus} = props;
+  const {cardData, onUserHover, authorizationStatus, onUserFavorited} = props;
   const navigate = useNavigate();
   const {
     id,
@@ -53,7 +55,14 @@ const OfferCard = (props) => {
               is_favorite && `place-card__bookmark-button--active`
             } button`}
             type="button"
-            onClick={() => !authorizationStatus && navigate(AppRoute.LOGIN)}
+            onClick={() =>
+              !authorizationStatus
+                ? navigate(AppRoute.LOGIN)
+                : onUserFavorited(
+                    id,
+                    !is_favorite ? PostStatus.ADD : PostStatus.REMOVE
+                  )
+            }
           >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
@@ -81,15 +90,15 @@ const mapStateToProps = ({LOGIN}) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onUserHover(id) {
-    dispatch(hoverCard(id));
-  },
+  onUserHover: (id) => dispatch(hoverCard(id)),
+  onUserFavorited: (id, status) => dispatch(postFavoriteOffer(id, status)),
 });
 
 OfferCard.propTypes = {
   cardData: AppTypes.offer,
   onUserHover: AppTypes.anyFunction,
   authorizationStatus: AppTypes.anyFlag,
+  onUserFavorited: AppTypes.anyFunction,
 };
 
 export {OfferCard};

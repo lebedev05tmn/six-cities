@@ -1,9 +1,9 @@
 import {ActionType} from "../action";
 
 const initialState = {
-  email: "",
-  password: "",
-  comment: "",
+  email: ``,
+  password: ``,
+  comment: ``,
   rating: 0,
 };
 
