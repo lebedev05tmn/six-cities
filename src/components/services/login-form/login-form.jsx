@@ -18,13 +18,7 @@ const LoginForm = ({
           name="email"
           placeholder="Email"
           required=""
-          onChange={(e) => {
-            e.target.value.match(
-              /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
-            )
-              ? onInputEmail(e.target.value)
-              : alert("Please enter a valid email");
-          }}
+          onChange={(e) => onInputEmail(e.target.value)}
         />
       </div>
       <div className="login__input-wrapper form__input-wrapper">
@@ -35,16 +29,17 @@ const LoginForm = ({
           name="password"
           placeholder="Password"
           required=""
-          onChange={(e) => {
-            e.target.value !== ``
-              ? onInputPassword(e.target.value)
-              : alert(`Please enter a valid password`);
-          }}
+          onChange={(e) => onInputPassword(e.target.value)}
         />
       </div>
       <button
         className="login__submit form__submit button"
         type="submit"
+        disabled={
+          !email.match(
+            /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
+          ) || password === ``
+        }
         onClick={(e) => {
           e.preventDefault();
           onUserLogin(email, password);
