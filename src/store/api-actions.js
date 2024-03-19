@@ -69,6 +69,7 @@ export const postFavoriteOffer = (id, status) => (dispatch, _getState, api) =>
     .post(status === PostStatus.ADD ? `favorite/${id}/1` : `favorite/${id}/0`)
     .then(() => dispatch(fetchOffersList()))
     .then(() => dispatch(getFavoriteList()))
+    .then(() => dispatch(fetchOffer(id)))
     .catch((error) => {
       throw new Error(error);
     });

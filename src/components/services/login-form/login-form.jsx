@@ -19,7 +19,11 @@ const LoginForm = ({
           placeholder="Email"
           required=""
           onChange={(e) => {
-            onInputEmail(e.target.value);
+            e.target.value.match(
+              /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
+            )
+              ? onInputEmail(e.target.value)
+              : alert("Please enter a valid email");
           }}
         />
       </div>
@@ -32,7 +36,9 @@ const LoginForm = ({
           placeholder="Password"
           required=""
           onChange={(e) => {
-            onInputPassword(e.target.value);
+            e.target.value !== ``
+              ? onInputPassword(e.target.value)
+              : alert(`Please enter a valid password`);
           }}
         />
       </div>
